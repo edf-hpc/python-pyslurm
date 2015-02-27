@@ -1,0 +1,15 @@
+Source: python-pyslurm
+Priority: extra
+Maintainer: Rémi Palancher <remi-externe.palancher@edf.fr>
+Section: python
+Build-Depends: debhelper (>= 9), python-setuptools (>= 0.6), libslurm-dev, libslurmdb-dev, cython (>= 0.21), python-dev
+X-Python-Version: >= 2.6
+Standards-Version: 3.9.6
+Homepage: http://www.gingergeeks.co.uk/pyslurm/
+
+Package: python-pyslurm
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Python API for slurm
+ This package provide a Python API for slurm
+ that can be used to contact slurmctld

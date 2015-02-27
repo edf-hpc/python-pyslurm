@@ -1,0 +1,23 @@
+python-pyslurm for Debian
+-------------------------
+
+The upstream does not do real releases and provides a debian/ directory. For
+these reasons, the imported orig tarball must be created manually following
+these steps:
+
+1/ Download zip archive of master branch at this URL:
+   https://github.com/gingergeeks/pyslurm/archive/master.zip
+
+2/ Extract this archive
+
+3/ Rename extracted directory to `pyslurm`
+
+4/ Remove `debian/` upstream sub-directory
+
+5/ Create the orig tarball with the following naming scheme:
+     python-pyslurm-AA.BB.0~gitYYYYMMDD
+   Where:
+   - AA.BB.0 is the version of the target Slurm version (ex: 14.11.0)
+   - YYYYMMDD is the current date
+
+5/ Import the newly created orig tarball with git-buildpackage

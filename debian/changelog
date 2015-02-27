@@ -1,0 +1,6 @@
+python-pyslurm (14.11.0~git20150227-1) unstable; urgency=low
+
+  * Initial version with initial fake upstream release 14.11.0~git20150227
+    largely based on the upstream packaging effort by Stephan Gorget
+
+ -- Rémi Palancher <remi-externe.palancher@edf.fr>  Wed, 25 Feb 2015 09:09:50 +0100
