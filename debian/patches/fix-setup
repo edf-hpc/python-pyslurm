@@ -1,7 +1,7 @@
 Description: fix setup.py hard-coded restriction to slurm <= 14.11.2
 Author: Rémi Palancher <remi-externe.palancher@edf.fr>
-Forwarded: no
-Last-Update: 2015-02-25
+Forwarded: https://github.com/gingergeeks/pyslurm/pull/43
+Last-Update: 2015-04-02
 
 --- a/setup.py
 +++ b/setup.py
