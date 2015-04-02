@@ -1,3 +1,10 @@
+python-pyslurm (14.11.0~git20150227-2) unstable; urgency=medium
+
+  * Update fix-setup patch with forwarding meta-info
+  * Add new patch to fix jobs cpus_allocated dict filling
+
+ -- Rémi Palancher <remi-externe.palancher@edf.fr>  Thu, 02 Apr 2015 10:10:22 +0200
+
 python-pyslurm (14.11.0~git20150227-1) unstable; urgency=low
 
   * Initial version with initial fake upstream release 14.11.0~git20150227
