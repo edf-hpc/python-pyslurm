@@ -1,3 +1,12 @@
+python-pyslurm (14.11.0~git20150608-1+c7+1) calibre7; urgency=medium
+
+  * Backport to Calibre7
+  * Compat set to 8
+  * Update lib/ path in d/rules to remove support of multiarch
+  * Update Build-Deps to versions in C7
+
+ -- Rémi Palancher <remi-externe.palancher@edf.fr>  Mon, 08 Jun 2015 11:00:27 +0200
+
 python-pyslurm (14.11.0~git20150608-1) unstable; urgency=medium
 
   * Imported Upstream version 14.11.0~git20150608
