@@ -22,9 +22,9 @@ logging.basicConfig(level=20)
 # PySlurm Version
 
 #VERSION = imp.load_source("/tmp", "pyslurm/__init__.py").__version__
-__version__ = "14.11.0-0"
-__min_slurm_hex_version__ = "0x0e0b00"
-__max_slurm_hex_version__ = "0x0e0b02"
+__version__ = "14.11.5"
+__min_slurm_hex_version__ = "0x0e0b05"
+__max_slurm_hex_version__ = "0x0e0b06"
 
 def fatal(logstring, code=1):
 	logger.error("Fatal: " + logstring)
@@ -125,7 +125,7 @@ def clean():
 			fatal("Clean - failed to remove pyslurm build/ directory !") 
 			sys.exit(-1)
 
-	files = [ "pyslurm/pyslurm.c", "pyslurm/bluegene.pxi", "pyslurm/pyslurm.so" ]
+	files = [ "pyslurm/pyslurm.c", "pyslurm/bluegene.pxi", "pyslurm/pyslurm.so", "pyslurm/slurm_version.pxi" ]
 
 	for file in files:
 
@@ -158,7 +158,7 @@ if sys.version_info[:2] < (2, 6):
 
 compiler_dir = os.path.join(get_python_lib(prefix=''), 'src/pyslurm/')
 
-CyVersion_min = "0.21"
+CyVersion_min = "0.15"
 try:
 	from Cython.Distutils import build_ext
 	from Cython.Compiler.Version import version as CyVersion
@@ -255,6 +255,17 @@ if args[1] == 'build' or args[1] == 'build_ext':
 		if not os.path.exists("%s/libslurm.so" % SLURM_LIB):
 			info("Build - Cannot locate the Slurm shared library in %s" % SLURM_LIB)
 			usage()
+
+	# Slurm version 
+
+	info("Build - Writing Slurm version to pyslurm/slurm_version.pxi")
+	try:
+		f = open("pyslurm/slurm_version.pxi", "w")
+		f.write("SLURM_VERSION_NUMBER = %s\n" % SLURM_INC_VER)
+		f.close()
+	except:
+		fatal("Build - Unable to write Slurm version to pyslurm/slurm_version.pxi")
+		sys.exit(-1)
 
 	# BlueGene Types
 
