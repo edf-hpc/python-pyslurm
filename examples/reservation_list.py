@@ -11,6 +11,7 @@ def display(res_dict):
 
 		for key, value in res_dict.iteritems():
 
+			print "%s :" % key
 			for res_key in sorted(value.iterkeys()):
 
 				if res_key in date_fields:
@@ -28,15 +29,14 @@ def display(res_dict):
 
 if __name__ == "__main__":
 
-	a = pyslurm.reservation()
-	res_dict = a.get()
+	try:
+		a = pyslurm.reservation()
+		res_dict = a.get()
 
-	if len(res_dict) > 0:
-
-		display(res_dict)
-
-		print "Res IDs - %s" % a.ids()
-
-	else:
-		print "No reservations found !"
-
+		if len(res_dict) > 0:
+			display(res_dict)
+			print "Res IDs - %s" % a.ids()
+		else:
+			print "No reservations found !"
+	except ValueError as e:
+		print 'Error - %s' % (e)
