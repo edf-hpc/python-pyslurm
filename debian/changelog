@@ -1,6 +1,8 @@
 python-pyslurm (14.11.0~git20150608-2) unstable; urgency=low
 
   * Convert patches to gbp-pq format.
+  * Add some bindings to QOS related functions
+    - add 0002-Add-bindings-to-QOS-related-functions.patch
 
  -- Mehdi Dogguy <mehdi.dogguy@edf.fr>  Fri, 03 Jul 2015 15:13:25 +0200
 
