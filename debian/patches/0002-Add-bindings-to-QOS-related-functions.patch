@@ -1,0 +1,241 @@
+From: Mehdi Dogguy <mehdi@dogguy.org>
+Date: Thu, 2 Jul 2015 18:12:09 +0200
+Subject: [PATCH] Add bindings to QOS related functions
+
+Forwarded: Yes
+
+---
+ pyslurm/pyslurm.pyx |  146 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ pyslurm/slurm.pxd   |   64 ++++++++++++++++++++++
+ 2 files changed, 210 insertions(+), 0 deletions(-)
+
+diff --git a/pyslurm/pyslurm.pyx b/pyslurm/pyslurm.pyx
+index 521fa54..264649d 100644
+--- a/pyslurm/pyslurm.pyx
++++ b/pyslurm/pyslurm.pyx
+@@ -4021,6 +4021,152 @@ cdef class front_end:
+ 		self._FrontEndDict = FENode
+ 
+ #
++# QOS Class
++#
++
++cdef class qos:
++
++	u"""Class to access/update slurm qos information.
++	"""
++
++	cdef:
++		void *dbconn
++		dict _QOSDict
++		slurm.List _QOSList
++
++	def __cinit__(self):
++		self.dbconn = <void *>NULL
++		self._QOSDict = {}
++
++	def __dealloc__(self):
++		self.__destroy()
++
++	cpdef __destroy(self):
++
++		u"""Free the memory allocated by load QOS method.
++		"""
++
++		self._QOSDict = {}
++
++	def load(self):
++
++		u"""Load slurm front end node information.
++		"""
++
++		self.__load()
++
++	cpdef int __load(self) except? -1:
++
++		u"""Load slurm QOS list.
++		"""
++
++		cdef slurm.slurmdb_qos_cond_t *new_qos_cond = NULL
++		cdef int apiError = 0
++		cdef void* dbconn = slurm.slurmdb_connection_get()
++		cdef slurm.List QOSList = slurm.slurmdb_qos_get(dbconn, new_qos_cond)
++
++		if QOSList is NULL:
++			apiError = slurm.slurm_get_errno()
++			raise ValueError(slurm.slurm_strerror(apiError), apiError)
++		else:
++			self._QOSList = QOSList
++
++		slurm.slurmdb_connection_close(&dbconn)
++
++		return 0
++
++	def lastUpdate(self):
++
++		u"""Return last time (sepoch seconds) the node data was updated.
++
++		:returns: epoch seconds
++		:rtype: `integer`
++		"""
++
++		return self._lastUpdate
++
++	def ids(self):
++
++		u"""Return the node IDs from retrieved data.
++
++		:returns: Dictionary of node IDs
++		:rtype: `dict`
++		"""
++
++		return self._QOSDict.keys()
++
++	def get(self):
++
++		u"""Get slurm front end node information.
++
++		:returns: Dictionary whose key is the Topology ID
++		:rtype: `dict`
++		"""
++
++		self.__load()
++		self.__get()
++
++		return self._QOSDict
++
++	cpdef __get(self):
++
++		cdef:
++			slurm.List qos_list = NULL
++			slurm.ListIterator iters = NULL
++			int i = 0
++			int listNum = 0
++			dict Q_dict = {}
++
++		if self._QOSList is not NULL:
++
++			listNum = slurm.slurm_list_count(self._QOSList)
++			iters = slurm.slurm_list_iterator_create(self._QOSList)
++
++			for i from 0 <= i < listNum:
++				qos = <slurm.slurmdb_qos_rec_t *>slurm.slurm_list_next(iters)
++				name = qos.name
++
++				# QOS infos
++				QOS_info = {}
++
++				if name is not NULL:
++					QOS_info[u'description'] = slurm.stringOrNone(qos.description, '')
++					QOS_info[u'flags'] = qos.flags
++					QOS_info[u'grace_time'] = qos.grace_time
++					QOS_info[u'grp_cpu_mins'] = qos.grp_cpu_mins
++					QOS_info[u'grp_cpu_run_mins'] = qos.grp_cpu_run_mins
++					QOS_info[u'grp_cpus'] = qos.grp_cpus
++					QOS_info[u'grp_jobs'] = qos.grp_jobs
++					QOS_info[u'grp_mem'] = qos.grp_mem
++					QOS_info[u'grp_nodes'] = qos.grp_nodes
++					QOS_info[u'grp_submit_jobs'] = qos.grp_submit_jobs
++					QOS_info[u'grp_wall'] = qos.grp_wall
++					QOS_info[u'max_cpu_mins_pj'] = qos.max_cpu_mins_pj
++					QOS_info[u'max_cpu_mins_pj'] = qos.max_cpu_mins_pj
++					QOS_info[u'max_cpu_run_mins_pu'] = qos.max_cpu_run_mins_pu
++					QOS_info[u'max_cpus_pj'] = qos.max_cpus_pj
++					QOS_info[u'max_cpus_pu'] = qos.max_cpus_pu
++					QOS_info[u'max_jobs_pu'] = qos.max_jobs_pu
++					QOS_info[u'max_nodes_pj'] = qos.max_nodes_pj
++					QOS_info[u'max_nodes_pu'] = qos.max_nodes_pu
++					QOS_info[u'max_submit_jobs_pu'] = qos.max_submit_jobs_pu
++					QOS_info[u'max_wall_pj'] = qos.max_wall_pj
++					#QOS_info[u'*preempt_bitstr'] =
++					#QOS_info[u'preempt_list'] = qos.preempt_list
++					QOS_info[u'preempt_mode'] = get_preempt_mode(qos.preempt_mode)
++					QOS_info[u'priority'] = qos.priority
++					QOS_info[u'usage_factor'] = qos.usage_factor
++					QOS_info[u'usage_thres'] = qos.usage_thres
++
++				if name is not NULL:
++					Q_dict[name] = QOS_info
++
++			slurm.slurm_list_iterator_destroy(iters)
++			slurm.slurm_list_destroy(self._QOSList)
++
++		self._QOSDict = Q_dict
++
++#
+ # Helper functions to convert numerical States
+ #
+ 
+diff --git a/pyslurm/slurm.pxd b/pyslurm/slurm.pxd
+index 4f52376..2404f4a 100644
+--- a/pyslurm/slurm.pxd
++++ b/pyslurm/slurm.pxd
+@@ -1566,3 +1566,67 @@ cdef extern from 'slurm/slurm.h' nogil:
+ 	#
+ 	# End
+ 	#
++
++#
++# Main Slurmdb API
++#
++
++cdef extern from 'slurm/slurmdb.h' nogil:
++	ctypedef struct slurmdb_qos_rec:
++		char *description
++		uint32_t id
++		uint32_t flags
++		uint32_t grace_time
++		uint64_t grp_cpu_mins
++		uint64_t grp_cpu_run_mins
++		uint32_t grp_cpus
++		uint32_t grp_jobs
++		uint32_t grp_mem
++		uint32_t grp_nodes
++		uint32_t grp_submit_jobs
++		uint32_t grp_wall
++		uint64_t max_cpu_mins_pj
++		uint64_t max_cpu_run_mins_pu
++		uint32_t max_cpus_pj
++		uint32_t max_cpus_pu
++		uint32_t max_jobs_pu
++		uint32_t max_nodes_pj
++		uint32_t max_nodes_pu
++		uint32_t max_submit_jobs_pu
++		uint32_t max_wall_pj
++		char *name
++		bitstr_t *preempt_bitstr
++		List preempt_list
++		uint16_t preempt_mode
++		uint32_t priority
++		void *usage # assoc_mgr_qos_usage_t
++		double usage_factor
++		double usage_thres
++
++	ctypedef slurmdb_qos_rec slurmdb_qos_rec_t
++
++	ctypedef struct slurmdb_qos_cond:
++		List description_list;
++		List id_list;
++		List name_list;
++		uint16_t preempt_mode;
++		uint16_t with_deleted;
++
++	ctypedef slurmdb_qos_cond slurmdb_qos_cond_t
++
++	#
++	# Accounting Storage
++	#
++
++	cdef extern void *slurmdb_connection_get ()
++	cdef extern int slurmdb_connection_close (void **db_conn)
++	cdef extern List slurmdb_config_get (void *db_conn)
++
++	#
++	# QOS
++	#
++
++	cdef extern int slurmdb_qos_add(void *db_conn, uint32_t uid, List qos_list)
++	cdef extern List slurmdb_qos_get(void *db_conn, slurmdb_qos_cond_t *qos_cond)
++	cdef extern List slurmdb_qos_modify(void *db_conn, slurmdb_qos_cond_t *qos_cond, slurmdb_qos_rec_t *qos)
++	cdef extern List slurmdb_qos_remove(void *db_conn, slurmdb_qos_cond_t *qos_cond)
+-- 
