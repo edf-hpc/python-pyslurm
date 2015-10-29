@@ -1,4 +1,4 @@
-python-pyslurm (14.11.0~git20150608-2~c7-1) unstable; urgency=low
+python-pyslurm (14.11.0~git20150608-2+c7+1) unstable; urgency=low
 
   * Backport to Calibre7
 
