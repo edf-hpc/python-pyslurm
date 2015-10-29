@@ -1,3 +1,9 @@
+python-pyslurm (14.11.0~git20150608-2+c9+1) calibre9; urgency=medium
+
+  * Backport to Calibre9
+
+ -- Rémi Palancher <remi-externe.palancher@edf.fr>  Thu, 29 Oct 2015 16:30:35 +0100
+
 python-pyslurm (14.11.0~git20150608-2) unstable; urgency=low
 
   * Convert patches to gbp-pq format.
