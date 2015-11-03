@@ -1,3 +1,9 @@
+python-pyslurm (14.11.0~git20150608-3) unstable; urgency=low
+
+  * Handle unicode characters in job parameters
+
+ -- Mehdi Dogguy <mehdi.dogguy@edf.fr>  Tue, 03 Nov 2015 21:53:47 +0100
+
 python-pyslurm (14.11.0~git20150608-2) unstable; urgency=low
 
   * Convert patches to gbp-pq format.
