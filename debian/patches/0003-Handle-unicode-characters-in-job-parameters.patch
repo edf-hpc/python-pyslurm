@@ -1,0 +1,23 @@
+From: Mehdi Dogguy <mehdi@dogguy.org>
+Date: Tue, 3 Nov 2015 10:25:32 +0100
+Subject: [PATCH] Handle unicode characters in job parameters
+
+Fixes #33
+---
+ pyslurm/slurm.pxd |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/pyslurm/slurm.pxd b/pyslurm/slurm.pxd
+index 2404f4a..199ecf9 100644
+--- a/pyslurm/slurm.pxd
++++ b/pyslurm/slurm.pxd
+@@ -55,7 +55,7 @@ cdef inline stringOrNone(char* value, value2):
+ 		if value2 is '':
+ 			return None
+ 		return u"%s" % value2
+-	return u"%s" % value
++	return u"%s" % value.decode('utf-8')
+ 
+ cdef inline boolToString(int value):
+ 	if value == 0:
+-- 

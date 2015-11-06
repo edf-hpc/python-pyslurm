@@ -1,8 +1,8 @@
-python-pyslurm (14.11.0~git20150608-2+c9+1) calibre9; urgency=medium
+python-pyslurm (14.11.0~git20150608-3) unstable; urgency=low
 
-  * Backport to Calibre9
+  * Handle unicode characters in job parameters
 
- -- Rémi Palancher <remi-externe.palancher@edf.fr>  Thu, 29 Oct 2015 16:30:35 +0100
+ -- Mehdi Dogguy <mehdi.dogguy@edf.fr>  Tue, 03 Nov 2015 21:53:47 +0100
 
 python-pyslurm (14.11.0~git20150608-2) unstable; urgency=low
 
