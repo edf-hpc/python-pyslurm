@@ -1,3 +1,10 @@
+python-pyslurm (14.11.0~git20150608-3+c7+2) calibre7; urgency=medium
+
+  * Add patch 0004 to remove semi-colons to keep compat with older versions
+    of cython.
+
+ -- Ana Guerrero <ana-externe.guerrero@edf.fr>  Fri, 11 Dec 2015 14:18:43 +0100
+
 python-pyslurm (14.11.0~git20150608-3+c7+1) calibre7; urgency=medium
 
   * Backport to Calibre7
