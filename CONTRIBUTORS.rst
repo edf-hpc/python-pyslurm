@@ -4,6 +4,9 @@ Contributors
 
 * Jonathon Anderson
 * Ramon Bastiaans
-* Stephan Gorget
+* Mike Dacre
+* Mehdi Dogguy
+* Stephan Gorget (past author)
 * Rémi Palancher
 * Mark Roberts
+* Giovanni Torres
