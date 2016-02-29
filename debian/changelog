@@ -1,3 +1,9 @@
+python-pyslurm (15.08.0~git20160229-1+c7+1) calibre7; urgency=medium
+
+  * Backport to Calibre7
+
+ -- Rémi Palancher <remi-externe.palancher@edf.fr>  Mon, 29 Feb 2016 17:02:27 +0100
+
 python-pyslurm (15.08.0~git20160229-1) unstable; urgency=medium
 
   * Imported Upstream version 15.08.0~git20160229
