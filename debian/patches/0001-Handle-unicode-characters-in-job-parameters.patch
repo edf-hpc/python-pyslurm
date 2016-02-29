@@ -1,14 +1,14 @@
 From: Mehdi Dogguy <mehdi@dogguy.org>
 Date: Tue, 3 Nov 2015 10:25:32 +0100
-Subject: [PATCH] Handle unicode characters in job parameters
+Subject: Handle unicode characters in job parameters
 
 Fixes #33
 ---
- pyslurm/slurm.pxd |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ pyslurm/slurm.pxd | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/pyslurm/slurm.pxd b/pyslurm/slurm.pxd
-index 2404f4a..199ecf9 100644
+index 53450b7..5626a4f 100644
 --- a/pyslurm/slurm.pxd
 +++ b/pyslurm/slurm.pxd
 @@ -55,7 +55,7 @@ cdef inline stringOrNone(char* value, value2):
@@ -20,4 +20,3 @@ index 2404f4a..199ecf9 100644
  
  cdef inline boolToString(int value):
  	if value == 0:
--- 
