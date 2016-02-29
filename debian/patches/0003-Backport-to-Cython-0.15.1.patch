@@ -4,6 +4,8 @@ Subject: Backport to Cython 0.15.1
 
 Report tested on Python 2.6.6, Cython 0.15.1 and Slurm 15.08.8 in
 README.md.
+
+Forwarded: https://github.com/gingergeeks/pyslurm/pull/67
 ---
  README.rst          | 1 +
  pyslurm/pyslurm.pyx | 4 +++-
