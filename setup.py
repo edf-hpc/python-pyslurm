@@ -22,9 +22,9 @@ logging.basicConfig(level=20)
 # PySlurm Version
 
 #VERSION = imp.load_source("/tmp", "pyslurm/__init__.py").__version__
-__version__ = "14.11.5"
-__min_slurm_hex_version__ = "0x0e0b05"
-__max_slurm_hex_version__ = "0x0e0b06"
+__version__ = "15.08.2"
+__min_slurm_hex_version__ = "0x0f0802"
+__max_slurm_hex_version__ = "0x0f0803"
 
 def fatal(logstring, code=1):
 	logger.error("Fatal: " + logstring)
@@ -105,7 +105,7 @@ def inc_vers2str(hex_inc_version):
 
 	a = int(hex_inc_version,16)
 	b = ( a >> 16 & 0xff, a >> 8 & 0xff, a & 0xff)
-	return '.'.join(map(str,b))
+	return '{0:02d}.{1:02d}.{2:02d}'.format(*b)
 
 def clean():
 
@@ -125,7 +125,7 @@ def clean():
 			fatal("Clean - failed to remove pyslurm build/ directory !") 
 			sys.exit(-1)
 
-	files = [ "pyslurm/pyslurm.c", "pyslurm/bluegene.pxi", "pyslurm/pyslurm.so", "pyslurm/slurm_version.pxi" ]
+	files = [ "pyslurm/__init__.pyc", "pyslurm/pyslurm.c", "pyslurm/bluegene.pxi", "pyslurm/pyslurm.so", "pyslurm/slurm_version.pxi" ]
 
 	for file in files:
 
@@ -244,7 +244,7 @@ if args[1] == 'build' or args[1] == 'build_ext':
 
 	# Test for supported min and max Slurm versions 
 
-        SLURM_INC_VER = read_inc_version("%s/slurm/slurm.h" % SLURM_INC)
+	SLURM_INC_VER = read_inc_version("%s/slurm/slurm.h" % SLURM_INC)
 	if (int(SLURM_INC_VER,16) < int(__min_slurm_hex_version__,16)) or (int(SLURM_INC_VER,16) > int(__max_slurm_hex_version__,16)):
 		fatal("Build - Incorrect slurm version detected, require Slurm-%s to slurm-%s" % (inc_vers2str(__min_slurm_hex_version__), inc_vers2str(__max_slurm_hex_version__)))
 		sys.exit(-1)

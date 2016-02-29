@@ -1,3 +1,10 @@
+python-pyslurm (15.08.0~git20160229-1) unstable; urgency=medium
+
+  * Imported Upstream version 15.08.0~git20160229
+  * Update patch queue using gbp-pq
+
+ -- Rémi Palancher <remi-externe.palancher@edf.fr>  Mon, 29 Feb 2016 16:51:28 +0100
+
 python-pyslurm (14.11.0~git20150608-3+c7+2) calibre7; urgency=medium
 
   * Add patch 0004 to remove semi-colons to keep compat with older versions
