@@ -2,7 +2,7 @@ From: Mehdi Dogguy <mehdi@dogguy.org>
 Date: Tue, 3 Nov 2015 10:25:32 +0100
 Subject: Handle unicode characters in job parameters
 
-Fixes #33
+Forwarded: https://github.com/gingergeeks/pyslurm/pull/66
 ---
  pyslurm/slurm.pxd | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
