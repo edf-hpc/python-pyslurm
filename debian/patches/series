@@ -1,4 +1,0 @@
-0001-Handle-unicode-characters-in-job-parameters.patch
-0002-Enable-build-with-15.08.8.patch
-0003-Backport-to-Cython-0.15.1.patch
-0004-Return-topology-switches-nodes-as-hostlist.patch
