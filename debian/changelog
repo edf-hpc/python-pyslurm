@@ -1,3 +1,10 @@
+python-pyslurm (16.05.0~git20160915-1) unstable; urgency=medium
+
+  * Imported Upstream version 16.05.0~git20160915
+  * Remove all patches
+
+ -- Rémi Palancher <remi-externe.palancher@edf.fr>  Thu, 06 Oct 2016 16:57:43 +0200
+
 python-pyslurm (15.08.0~git20160229-2+c9+1) calibre9; urgency=medium
 
   * Backport to Calibre9
