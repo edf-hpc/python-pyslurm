@@ -1,0 +1,130 @@
+From: =?utf-8?q?R=C3=A9mi_Palancher?= <remi-externe.palancher@edf.fr>
+Date: Wed, 8 Feb 2017 15:45:49 +0100
+Subject: Backport code to Slurm 15.08.8
+
+---
+ pyslurm/pyslurm.pyx       |  8 --------
+ pyslurm/slurm.pxd         | 18 ------------------
+ pyslurm/slurm_defines.pxi | 11 -----------
+ 3 files changed, 37 deletions(-)
+
+diff --git a/pyslurm/pyslurm.pyx b/pyslurm/pyslurm.pyx
+index 543bab5..c7afec2 100644
+--- a/pyslurm/pyslurm.pyx
++++ b/pyslurm/pyslurm.pyx
+@@ -968,8 +968,6 @@ cdef class partition:
+                     preempt_mode = slurm.slurm_get_preempt_mode()
+                 Part_dict[u'preempt_mode'] = slurm.slurm_preempt_mode_string(preempt_mode)
+ 
+-                Part_dict[u'priority_job_factor'] = record.priority_job_factor
+-                Part_dict[u'priority_tier'] = record.priority_tier
+                 Part_dict[u'qos_char'] = slurm.stringOrNone(record.qos_char, '')
+                 Part_dict[u'state'] = get_partition_state(record.state_up)
+                 Part_dict[u'total_cpus'] = record.total_cpus
+@@ -2618,17 +2616,11 @@ cdef class node:
+                 Host_dict[u'cpu_load'] = record.cpu_load
+                 Host_dict[u'cpu_spec_list'] = slurm.listOrNone(record.cpu_spec_list, '')
+                 Host_dict[u'features'] = slurm.listOrNone(record.features, '')
+-                Host_dict[u'features_active'] = slurm.listOrNone(record.features_act, '')
+                 Host_dict[u'free_mem'] = record.free_mem
+                 Host_dict[u'gres'] = slurm.listOrNone(record.gres, ',')
+                 Host_dict[u'gres_drain'] = slurm.listOrNone(record.gres_drain, '')
+                 Host_dict[u'gres_used'] = slurm.listOrNone(record.gres_used, ',')
+ 
+-                if record.mcs_label == NULL:
+-                    Host_dict[u'mcs_label'] = None
+-                else:
+-                    Host_dict[u'mcs_label'] = record.mcs_label
+-                    
+                 Host_dict[u'mem_spec_limit'] = record.mem_spec_limit
+                 Host_dict[u'name'] = slurm.stringOrNone(record.name, '')
+                 Host_dict[u'node_addr'] = slurm.stringOrNone(record.node_addr, '')
+diff --git a/pyslurm/slurm.pxd b/pyslurm/slurm.pxd
+index 7613e6e..db9c20a 100644
+--- a/pyslurm/slurm.pxd
++++ b/pyslurm/slurm.pxd
+@@ -280,17 +280,6 @@ cdef extern from 'slurm/slurm.h' nogil:
+         WAIT_QOS_MAX_BB_PER_USER
+         WAIT_QOS_MAX_BB_MINS_PER_JOB
+         WAIT_QOS_MIN_BB
+-        FAIL_DEADLINE
+-        WAIT_QOS_MAX_BB_PER_ACCT
+-        WAIT_QOS_MAX_CPU_PER_ACCT
+-        WAIT_QOS_MAX_ENERGY_PER_ACCT
+-        WAIT_QOS_MAX_GRES_PER_ACCT
+-        WAIT_QOS_MAX_NODE_PER_ACCT
+-        WAIT_QOS_MAX_LIC_PER_ACCT
+-        WAIT_QOS_MAX_MEM_PER_ACCT
+-        WAIT_QOS_MAX_UNK_PER_ACCT
+-        WAIT_QOS_MAX_JOB_PER_ACCT
+-        WAIT_QOS_MAX_SUB_JOB_PER_ACCT
+ 
+ 
+     cdef enum select_jobdata_type:
+@@ -701,7 +690,6 @@ cdef extern from 'slurm/slurm.h' nogil:
+         char *licenses
+         uint16_t mail_type
+         char *mail_user
+-        char *mcs_label
+         char *mem_bind
+         uint16_t mem_bind_type
+         char *name
+@@ -1017,7 +1005,6 @@ cdef extern from 'slurm/slurm.h' nogil:
+         char *licenses
+         uint32_t max_cpus
+         uint32_t max_nodes
+-        char *mcs_label
+         char *name
+         char *network
+         char *nodes
+@@ -1140,8 +1127,6 @@ cdef extern from 'slurm/slurm.h' nogil:
+         int32_t *node_inx
+         char *nodes
+         uint16_t preempt_mode
+-        uint16_t priority_job_factor
+-        uint16_t priority_tier
+         char *qos_char
+         uint16_t state_up
+         uint32_t total_cpus
+@@ -1222,11 +1207,9 @@ cdef extern from 'slurm/slurm.h' nogil:
+         ext_sensors_data_t *ext_sensors
+         power_mgmt_data_t *power
+         char *features
+-        char *features_act
+         char *gres
+         char *gres_drain
+         char *gres_used
+-        char *mcs_label
+         uint32_t mem_spec_limit
+         char *name
+         char *node_addr
+@@ -1287,7 +1270,6 @@ cdef extern from 'slurm/slurm.h' nogil:
+ 
+     ctypedef struct slurm_update_node_msg:
+         char *features
+-        char *features_act
+         char *gres
+         char *node_addr
+         char *node_hostname
+diff --git a/pyslurm/slurm_defines.pxi b/pyslurm/slurm_defines.pxi
+index 3a6e71d..7c93b77 100644
+--- a/pyslurm/slurm_defines.pxi
++++ b/pyslurm/slurm_defines.pxi
+@@ -186,17 +186,6 @@ WAIT_QOS_MAX_BB_PER_NODE = slurm.WAIT_QOS_MAX_BB_PER_NODE
+ WAIT_QOS_MAX_BB_PER_USER = slurm.WAIT_QOS_MAX_BB_PER_USER 
+ WAIT_QOS_MAX_BB_MINS_PER_JOB = slurm.WAIT_QOS_MAX_BB_MINS_PER_JOB 
+ WAIT_QOS_MIN_BB = slurm.WAIT_QOS_MIN_BB 
+-FAIL_DEADLINE = slurm.FAIL_DEADLINE
+-WAIT_QOS_MAX_BB_PER_ACCT = slurm.WAIT_QOS_MAX_BB_PER_ACCT
+-WAIT_QOS_MAX_CPU_PER_ACCT = slurm.WAIT_QOS_MAX_CPU_PER_ACCT
+-WAIT_QOS_MAX_ENERGY_PER_ACCT = slurm.WAIT_QOS_MAX_ENERGY_PER_ACCT
+-WAIT_QOS_MAX_GRES_PER_ACCT = slurm.WAIT_QOS_MAX_GRES_PER_ACCT
+-WAIT_QOS_MAX_NODE_PER_ACCT = slurm.WAIT_QOS_MAX_NODE_PER_ACCT
+-WAIT_QOS_MAX_LIC_PER_ACCT = slurm.WAIT_QOS_MAX_LIC_PER_ACCT
+-WAIT_QOS_MAX_MEM_PER_ACCT = slurm.WAIT_QOS_MAX_MEM_PER_ACCT
+-WAIT_QOS_MAX_UNK_PER_ACCT = slurm.WAIT_QOS_MAX_UNK_PER_ACCT
+-WAIT_QOS_MAX_JOB_PER_ACCT = slurm.WAIT_QOS_MAX_JOB_PER_ACCT
+-WAIT_QOS_MAX_SUB_JOB_PER_ACCT = slurm.WAIT_QOS_MAX_SUB_JOB_PER_ACCT
+ 
+ NODE_STATE_UNKNOWN = slurm.NODE_STATE_UNKNOWN
+ NODE_STATE_DOWN = slurm.NODE_STATE_DOWN
