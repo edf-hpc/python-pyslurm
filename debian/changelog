@@ -1,3 +1,11 @@
+python-pyslurm (16.05.0~git20160915-2) unstable; urgency=medium
+
+  * Revert "Add extra config output"
+  * Add patch to increase slurm version to 16.05.6
+  * Add patch to have privatedata list in conf
+
+ -- Rémi Palancher <remi-externe.palancher@edf.fr>  Thu, 09 Feb 2017 10:21:26 +0100
+
 python-pyslurm (16.05.0~git20160915-1) unstable; urgency=medium
 
   * Imported Upstream version 16.05.0~git20160915
