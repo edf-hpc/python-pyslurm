@@ -1,0 +1,21 @@
+From: =?utf-8?q?R=C3=A9mi_Palancher?= <remi-externe.palancher@edf.fr>
+Date: Thu, 9 Feb 2017 10:08:17 +0100
+Subject: Increase supported version to slurm 16.05.6
+
+---
+ setup.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/setup.py b/setup.py
+index 8b53b3e..e10caf7 100644
+--- a/setup.py
++++ b/setup.py
+@@ -24,7 +24,7 @@ logging.basicConfig(level=20)
+ #VERSION = imp.load_source("/tmp", "pyslurm/__init__.py").__version__
+ __version__ = "16.05.0"
+ __min_slurm_hex_version__ = "0x100500"
+-__max_slurm_hex_version__ = "0x100504"
++__max_slurm_hex_version__ = "0x100506"
+ 
+ def fatal(logstring, code=1):
+     logger.error("Fatal: " + logstring)
