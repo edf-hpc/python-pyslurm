@@ -1,0 +1,23 @@
+From: =?utf-8?q?R=C3=A9mi_Palancher?= <remi@rezib.org>
+Date: Mon, 29 Feb 2016 15:55:29 +0100
+Subject: Enable build with 15.08.8
+
+---
+ setup.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/setup.py b/setup.py
+index 8b53b3e..c10aa73 100644
+--- a/setup.py
++++ b/setup.py
+@@ -23,8 +23,8 @@ logging.basicConfig(level=20)
+ 
+ #VERSION = imp.load_source("/tmp", "pyslurm/__init__.py").__version__
+ __version__ = "16.05.0"
+-__min_slurm_hex_version__ = "0x100500"
+-__max_slurm_hex_version__ = "0x100504"
++__min_slurm_hex_version__ = "0x0f0803"
++__max_slurm_hex_version__ = "0x0f0808"
+ 
+ def fatal(logstring, code=1):
+     logger.error("Fatal: " + logstring)
