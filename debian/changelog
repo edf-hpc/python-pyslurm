@@ -1,3 +1,11 @@
+python-pyslurm (16.05.0~git20160915-2~calibre9~slurm15088+1) calibre9; urgency=medium
+
+  * Backport to Calibre9
+  * Add patch to make setup build on Slurm 15.08
+  * Add patch to backport code to Slurm 15.08.8
+
+ -- Rémi Palancher <remi-externe.palancher@edf.fr>  Thu, 09 Feb 2017 10:52:12 +0100
+
 python-pyslurm (16.05.0~git20160915-2) unstable; urgency=medium
 
   * Revert "Add extra config output"
