@@ -1,3 +1,18 @@
+python-pyslurm (16.05.0~git20160915-2) unstable; urgency=medium
+
+  * Revert "Add extra config output"
+  * Add patch to increase slurm version to 16.05.6
+  * Add patch to have privatedata list in conf
+
+ -- Rémi Palancher <remi-externe.palancher@edf.fr>  Thu, 09 Feb 2017 10:21:26 +0100
+
+python-pyslurm (16.05.0~git20160915-1) unstable; urgency=medium
+
+  * Imported Upstream version 16.05.0~git20160915
+  * Remove all patches
+
+ -- Rémi Palancher <remi-externe.palancher@edf.fr>  Thu, 06 Oct 2016 16:57:43 +0200
+
 python-pyslurm (15.08.0~git20160229-2+c7+1) calibre7; urgency=medium
 
   * Backport to Calibre7
