@@ -1,3 +1,9 @@
+python-pyslurm (16.05.0~git20160915-2~calibre9+1) calibre9; urgency=medium
+
+  * Backport to Calibre9
+
+ -- Rémi Palancher <remi-externe.palancher@edf.fr>  Thu, 09 Feb 2017 10:27:08 +0100
+
 python-pyslurm (16.05.0~git20160915-2) unstable; urgency=medium
 
   * Revert "Add extra config output"
