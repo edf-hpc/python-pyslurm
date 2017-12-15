@@ -6,7 +6,7 @@ include /usr/share/dpkg/architecture.mk
 	dh $@ --with python2
 
 override_dh_auto_build:
-	python setup.py build --force --slurm-lib=/usr/lib/$(DEB_BUILD_GNU_TYPE) --slurm-inc=/usr/include 
+	python setup.py build --force --slurm-lib=/usr/lib/$(DEB_HOST_MULTIARCH) --slurm-inc=/usr/include
 
 clean:
 	dh $@
