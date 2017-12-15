@@ -1,3 +1,9 @@
+python-pyslurm (17.02.0~git20170405-1~calibre9+2) calibre9; urgency=medium
+
+  * Add patch to bump support to 17.02.2
+
+ -- Rémi Palancher <remi-externe.palancher@edf.fr>  Fri, 15 Dec 2017 09:17:31 +0100
+
 python-pyslurm (17.02.0~git20170405-1~calibre9+1) calibre9; urgency=medium
 
   * Backport to Calibre9
