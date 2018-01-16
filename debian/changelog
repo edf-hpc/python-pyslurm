@@ -1,10 +1,10 @@
-python-pyslurm (17.11~3d822d8f-1) UNRELEASED; urgency=medium
+python-pyslurm (17.11~3d822d8f-1) calibre9; urgency=medium
 
   * Import new upstream release
   * Add a debian/gbp.conf file
   * Fix check_libPath
 
- -- Mehdi Dogguy <mehdi.dogguy@edf.fr>  Tue, 16 Jan 2018 17:27:20 +0100
+ -- Mehdi Dogguy <mehdi.dogguy@edf.fr>  Tue, 16 Jan 2018 18:30:00 +0100
 
 python-pyslurm (17.02.0~git20170405-1) unstable; urgency=medium
 
