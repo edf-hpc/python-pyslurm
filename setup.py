@@ -22,9 +22,9 @@ logging.basicConfig(level=20)
 # PySlurm Version
 
 #VERSION = imp.load_source("/tmp", "pyslurm/__init__.py").__version__
-__version__ = "17.02.0"
-__min_slurm_hex_version__ = "0x110200"
-__max_slurm_hex_version__ = "0x110201"
+__version__ = "17.11.0"
+__min_slurm_hex_version__ = "0x110b00"
+__max_slurm_hex_version__ = "0x110b02"
 
 def fatal(logstring, code=1):
     logger.error("Fatal: " + logstring)
@@ -67,7 +67,7 @@ def makeExtension(extName):
         [extPath],
         include_dirs = ['%s' % SLURM_INC, '.'],   # adding the '.' to include_dirs is CRUCIAL!!
         library_dirs = ['%s' % SLURM_LIB, '%s/slurm' % SLURM_LIB],
-        libraries = ['slurmdb'],
+        libraries = ['slurmdb', 'slurm'],
         runtime_library_dirs = ['%s/' % SLURM_LIB, '%s/slurm' % SLURM_LIB],
         extra_objects = [],
         extra_compile_args = [],
@@ -135,6 +135,36 @@ def clean():
                 sys.exit(-1)
 
     info("Clean - completed")
+
+
+def check_libPath(slurm_path):
+
+    if not slurm_path:
+        slurm_path = DEFAULT_SLURM
+
+    slurm_path = os.path.normpath(slurm_path)
+
+    # if base dir given then check this
+
+    if os.path.basename(slurm_path) in ['lib','lib64']:
+        if os.path.exists("%s/libslurm.so" % slurm_path):
+            info("Build - Found Slurm shared library in %s" % slurm_path)
+            return slurm_path
+        else:
+            info("Build - Cannot locate Slurm shared library in %s" % slurm_path)
+            return ''
+
+    # if base dir given then search lib64 and then lib
+
+    for libpath in ['lib64', 'lib']:
+
+        slurmlibPath = "%s/%s" % (slurm_path, libpath)
+        if os.path.exists("%s/libslurm.so" % slurmlibPath):
+            info("Build - Found Slurm shared library in %s" % slurmlibPath)
+            return slurmlibPath
+
+    info("Build - Could not locate Slurm shared library in %s" % slurm_path)
+    return ''
 
 #
 # Main section
@@ -214,15 +244,15 @@ if args[1] == 'build' or args[1] == 'build_ext':
     if SLURM_DIR and (SLURM_LIB or SLURM_INC):
         usage()
     elif SLURM_DIR and not (SLURM_LIB or SLURM_INC):
-        SLURM_LIB = "%s/lib" % SLURM_DIR
+        SLURM_LIB = "%s" % SLURM_DIR
         SLURM_INC = "%s/include" % SLURM_DIR
     elif not SLURM_DIR and not SLURM_LIB and not SLURM_INC:
-        SLURM_LIB = "%s/lib" %  DEFAULT_SLURM
+        SLURM_LIB = "%s" %  DEFAULT_SLURM
         SLURM_INC = "%s/include" %  DEFAULT_SLURM
-    elif not SLURM_DIR and not (SLURM_LIB or not SLURM_INC):
+    elif not SLURM_DIR and (not SLURM_LIB or not SLURM_INC):
         usage()
 
-    # Test for slurm lib and slurm.h maybe from derived paths ?
+    # Test for slurm.h maybe from derived paths 
 
     if not os.path.exists("%s/slurm/slurm.h" % SLURM_INC):
         info("Build - Cannot locate the Slurm include in %s" % SLURM_INC)
@@ -235,12 +265,11 @@ if args[1] == 'build' or args[1] == 'build_ext':
         fatal("Build - Incorrect slurm version detected, require Slurm-%s to slurm-%s" % (inc_vers2str(__min_slurm_hex_version__), inc_vers2str(__max_slurm_hex_version__)))
         sys.exit(-1)
 
-    if not os.path.exists("%s/libslurm.so" % SLURM_LIB):
-        info("Build - Cannot locate the Slurm shared library in %s, checking lib64 .... " % SLURM_LIB)
-        SLURM_LIB = "%s/lib64" %  DEFAULT_SLURM
-        if not os.path.exists("%s/libslurm.so" % SLURM_LIB):
-            info("Build - Cannot locate the Slurm shared library in %s" % SLURM_LIB)
-            usage()
+    # Test for libslurm in lib64 and then lib
+
+    SLURM_LIB = check_libPath(SLURM_LIB)
+    if not SLURM_LIB:
+        usage()
 
     # Slurm version 
 
@@ -297,9 +326,7 @@ setup(
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.1',
-        'Programming Language :: Python :: 3.2',
-        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
         'Topic :: Software Development :: Libraries',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ]
