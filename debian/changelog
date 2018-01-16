@@ -2,6 +2,7 @@ python-pyslurm (17.11~3d822d8f-1) UNRELEASED; urgency=medium
 
   * Import new upstream release
   * Add a debian/gbp.conf file
+  * Fix check_libPath
 
  -- Mehdi Dogguy <mehdi.dogguy@edf.fr>  Tue, 16 Jan 2018 17:27:20 +0100
 
